@@ -1,15 +1,21 @@
 # 1. Import Flask
-from flask import Flask
-
+from flask import Flask, render_template, jsonify
+import sqlite3
+import pandas as pd
 
 # 2. Create an app
 app = Flask(__name__)
 
+# 3. Connection to Database
+conn = sqlite3.connect('data/worldpopulation.')
+query = 'SELECT * FROM '
+df = pd.read_sql(query, conn)
+conn.close()
 
-# 3. Define static routes
+# 4. Define static routes
 @app.route("/")
 def index():
-    return "Hello, world!"
+    return render_template("index.html")
 
 
 @app.route("/about")
