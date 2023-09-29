@@ -17,10 +17,10 @@ def index():
     return render_template("index.html")
 
 # 5. App route for static map
-@app.route("/Density(2022)")
+@app.route("/Density")
 def density_2022():
     # Convert DataFrame to JSON
-    specific_columns = df[['Code','Country', 'Density(2022)']]
+    specific_columns = df[['Code','Country', 'Density (2022)']]
     animatedMapData = specific_columns.to_dict(orient='records')
     return jsonify(animatedMapData)
 
@@ -34,7 +34,7 @@ def populationMap():
 # 4. App route for bar chart
 @app.route("/Country")
 def yearsbyCountry():
-    specific_columns = df[['Code', 'Country', '1970', '1980', '1990', '2000', '2010', '2015', '2020', '2022']]
+    specific_columns = df[['Country', '1970', '1980', '1990', '2000', '2010', '2015', '2020', '2022']]
     countryBarChart = specific_columns.to_dict(orient='records')
     return jsonify(countryBarChart)
 

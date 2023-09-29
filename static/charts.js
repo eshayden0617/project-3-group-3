@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Load data from the CSV file
-d3.csv("/data/worldpopulation_clean.csv").then(function (data) {
+d3.json("/Population").then(function (data) {
     // Extract the years (columns) from the data
     var years = Object.keys(data[0]).slice(2, -4); // Exclude non-year columns
     // Initialize arrays to store map data and slider steps
@@ -143,7 +143,7 @@ google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
   // Use d3.csv to load and parse your CSV data
-  d3.csv("/data/worldpopulation_clean.csv").then(function(data) {
+  d3.json("/Density").then(function(data) {
     // Create a DataTable and add columns
     var dataTable = new google.visualization.DataTable();
     dataTable.addColumn("string", "Country");
@@ -177,12 +177,12 @@ function drawChart() {
 
 function init() {
     // Fetch the CSV data and console log it
-    d3.csv("/data/worldpopulation_clean.csv").then(data => {
+    d3.json("/Country").then((data) => {
       // Extract unique country names for the dropdown
       const countryNames = Array.from(new Set(data.map(d => d.Country)));
   
       // Populate the dropdown with country names
-      const dropdown = d3.select("#selCountry");
+      const dropdown = d3.select("#selDataset");
       countryNames.forEach(country => {
         dropdown.append("option").text(country);
       });
