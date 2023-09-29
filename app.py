@@ -16,7 +16,7 @@ except FileNotFoundError:
 def index():
     return render_template("index.html")
 
-# 5. App route for animated map
+# 5. App route for static map
 @app.route("/Density(2022)")
 def density_2022():
     # Convert DataFrame to JSON
@@ -24,10 +24,10 @@ def density_2022():
     animatedMapData = specific_columns.to_dict(orient='records')
     return jsonify(animatedMapData)
 
-# 6. App route for poppulation map
+# 6. App route for animated map
 @app.route("/Population")
 def populationMap():
-    specific_columns = df[['Code', 'Country', '2022']]
+    specific_columns = df[['Code', 'Country', '1970', '1980', '1990', '2000', '2010', '2015', '2020', '2022']]
     populationMapData = specific_columns.to_dict(orient='records')
     return jsonify(populationMapData)
 
