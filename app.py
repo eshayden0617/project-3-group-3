@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 # 3. Connection to CSV
 try:
-    df = pd.read_csv('data/worldpopulation.csv')
+    df = pd.read_csv('data/worldpopulation_clean.csv')
 except FileNotFoundError:
     print("CSV file not found")
 
