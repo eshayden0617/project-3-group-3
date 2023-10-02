@@ -136,38 +136,42 @@ d3.json("/Population").then(function (data) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Load the Google Visualization API
-google.charts.load('current', {'packages':['corechart']});
+google.charts.load('current', {'packages':['geochart']});
 
 // Set a callback function to run when the Google Visualization API is loaded
-google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawGeoChart);
 
-function drawChart() {
-  // Use d3.csv to load and parse your CSV data
+function drawGeoChart() {
+  // Use d3.json to load and parse the data
   d3.json("/Density").then(function(data) {
     // Create a DataTable and add columns
     var dataTable = new google.visualization.DataTable();
     dataTable.addColumn("string", "Country");
-    dataTable.addColumn("number", "Value");
+    dataTable.addColumn("number", "Density");
 
-    // Iterate through your CSV data and add rows to the DataTable
+    // Iterate through the data and add rows to the DataTable
     data.forEach(function(d) {
       dataTable.addRow([d.Country, parseFloat(d["Density (2022)"])]);
     });
 
-    // Create a chart using the DataTable
-    var chart = new google.visualization.ColumnChart(document.getElementById('your-chart-div'));
-
-    // Set chart options if needed
+    // Create options for the GeoChart
     var options = {
-      title: 'Population Density by Country in 2022',
-      // Add other options as needed
+      title: "Population Density of Countries in 2022",
+      colorAxis: {
+         minValue: 0,
+         maxValue: 500,
+         colors: ['lightblue', 'darkblue', 'purple']
+        },
+      // datalessRegionColor: '#f8f8f8', // Color for countries with no data
     };
+
+    // Create a GeoChart and attach it to the div in our HTML
+    var chart = new google.visualization.GeoChart(document.getElementById("geoChart"));
 
     // Draw the chart with the DataTable and options
     chart.draw(dataTable, options);
   });
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Dropdown menu that changes by the country you select with Plotly
@@ -176,56 +180,65 @@ function drawChart() {
 // Init function for the dropdown dashboard
 
 function init() {
-    // Fetch the CSV data and console log it
-    d3.json("/Country").then((data) => {
-      // Extract unique country names for the dropdown
-      const countryNames = Array.from(new Set(data.map(d => d.Country)));
-  
-      // Populate the dropdown with country names
-      const dropdown = d3.select("#selDataset");
-      countryNames.forEach(country => {
-        dropdown.append("option").text(country);
+  // Fetch the data and console log it
+  d3.json("/Country").then((data) => {
+    // Extract unique country names for the dropdown
+    const countryNames = Array.from(new Set(data.map(d => d.Country)));
+    console.log(data);
+
+    // Populate the dropdown with country names
+    const dropdown = d3.select("#selDataset");
+    d3.select("#selDataset").on("change", function() {
+        const selectedCountry = d3.select(this).property("value");
+        optionChanged(selectedCountry, data);
       });
-  
-      // Initialize the dashboard with the first country in the list
-      optionChanged(countryNames[0], data);
+    countryNames.forEach(country => {
+      dropdown.append("option").text(country);
     });
-  }
-  
-  function optionChanged(selectedCountry, data) {
-    // Filter data based on the selected country
-    const countryData = data.filter(d => d.Country === selectedCountry);
-  
-    // Extract years and population data
-    const years = Object.keys(countryData[0]).filter(key => /^\d{4}$/.test(key));
-    const populationData = years.map(year => +countryData[0][year]);
-  
-    // Create the bar chart
-    barPlot(years, populationData, selectedCountry);
-  }
-  
-  // Define a function for the bar plot
-  function barPlot(years, populationData, selectedCountry) {
-    let trace1 = {
-      type: "bar",
-      x: years,
-      y: populationData,
-      text: years.map(year => `${selectedCountry} - ${year}`),
-      marker: {
-        color: 'blue', // You can customize the color
-      },
-    };
-  
-    let dataBar = [trace1];
-    let layoutBar = {
-      title: `Population of ${selectedCountry} Over the Years`,
-      xaxis: { title: "Year" },
-      yaxis: { title: "Population" },
-      width: 800,
-    };
-  
-    Plotly.newPlot("bar", dataBar, layoutBar);
-  }
-  
-  init();
-  
+
+    // Initialize the dashboard with the first country in the list
+    optionChanged(countryNames[0], data);
+  });
+}
+
+function optionChanged(selectedCountry, data) {
+  // console.log("Selected Country: ", selectedCountry);
+
+  // Filter data based on the selected country
+  const countryData = data.filter(d => d.Country === selectedCountry);
+  // console.log("Filtered Data: ", countryData);
+
+  // Extract years and population data
+  const years = Object.keys(countryData[0]).filter(key => /^\d{4}$/.test(key));
+  const populationData = years.map(year => +countryData[0][year]);
+
+
+  // Create the bar chart
+  barPlot(years, populationData, selectedCountry);
+}
+
+// Define a function for the bar plot
+function barPlot(years, populationData, selectedCountry) {
+  let trace1 = {
+    type: "bar",
+    x: years,
+    y: populationData,
+    text: years.map(year => `${selectedCountry} - ${year}`),
+    marker: {
+      color: 'blue', // You can customize the color
+    },
+  };
+
+  let dataBar = [trace1];
+  let layoutBar = {
+    title: `Population of ${selectedCountry} Over the Years`,
+    xaxis: { title: "Year" },
+    yaxis: { title: "Population" },
+    width: 800,
+  };
+
+  Plotly.react("bar", dataBar, layoutBar);
+}
+
+// console.log("init function called");
+init(optionChanged);
