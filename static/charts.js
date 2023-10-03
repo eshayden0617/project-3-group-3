@@ -168,7 +168,7 @@ function drawGeoChart() {
          maxValue: 500,
          colors: ['lightblue', 'darkblue', 'purple']
         },
-      // datalessRegionColor: '#f8f8f8', // Color for countries with no data
+      datalessRegionColor: '#ADD8E6', // Color for disputed countries and territories.  
     };
 
     // Create a GeoChart and attach it to the div in our HTML
@@ -225,13 +225,15 @@ function optionChanged(selectedCountry, data) {
 
 // Define a function for the bar plot
 function barPlot(years, populationData, selectedCountry) {
+  let barColors = ['red','orange','cyan','gray','green','blue','purple','maroon'];
+
   let trace1 = {
     type: "bar",
     x: years,
     y: populationData,
     text: years.map(year => `${selectedCountry} - ${year}`),
     marker: {
-      color: 'blue', // You can customize the color
+      color: barColors, 
     },
   };
 
