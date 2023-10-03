@@ -239,7 +239,7 @@ function barPlot(years, populationData, selectedCountry) {
   let layoutBar = {
     title: `Population of ${selectedCountry} Over the Years`,
     xaxis: { title: "Year" },
-    yaxis: { title: "Population" },
+    yaxis: { title: "Population in Million" },
     width: 800,
   };
 
