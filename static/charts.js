@@ -5,7 +5,7 @@
 // Load data from the CSV file
 d3.json("/Population").then(function (data) {
     // Extract the years (columns) from the data
-    var years = Object.keys(data[0]).slice(2, -4); // Exclude non-year columns
+    var years = Object.keys(data[0]).slice(0, -2); // Exclude non-year columns
     // Initialize arrays to store map data and slider steps
     var frames = [];
     var sliderSteps = [];
@@ -45,11 +45,11 @@ d3.json("/Population").then(function (data) {
         zauto: false,
         zmin: 0, // Set the minimum value for the color scale
         zmax: Math.max(...frames[0].data[0].z), // Set the maximum value for the color scale based on the data
-        colorscale: "Viridis", // Choose a color scale
+        colorscale: "reds", // Choose a color scale
       },
     ];
     var layout = {
-      title: "Population by Country (" + initialYear + ")",
+      title: "Population by Country (1970-2022)",
       geo: {
         scope: "world",
         showland: true,
@@ -131,6 +131,8 @@ d3.json("/Population").then(function (data) {
     });
   });
 
+animation();
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Density pops up when you hover over a country 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -156,7 +158,8 @@ function drawGeoChart() {
 
     // Create options for the GeoChart
     var options = {
-      title: "Population Density of Countries in 2022",
+      title: "Population Density by Country in 2022",
+      subtitle: "Thousands of people per square kilometer",
       colorAxis: {
          minValue: 0,
          maxValue: 500,
