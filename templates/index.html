@@ -8,44 +8,53 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+  .center-content {
+    text-align: center;
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-    <div class="row">
-    <div class="col-md-12 jumbotron text-center">
-    <h1>World Population Growth</h1>
-    <p>Explore the world population change over the years</p>
+<div class="container center-content">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>World Population Growth</h1>
+      <h2>Explore the world population change over the years</h2>
     </div>
-    </div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">
-        <div class="well">
-        <h5>Select a Country:</h5>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="well">
+        <h3>Select a Country:</h3>
         <select id="selDataset" onchange="optionChanged(this.value)"></select>
-        </div>
-        </div>
+      </div>
     </div>
-    <div class="col-md-14">
-        <div id="bar"></div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" mx-auto>
+      <div id="bar"></div>
     </div>
-    <div class="col-md-12" text-center>
-        <h3>Population density by country</h3>
-        <h4>Thousands of people per square kilometer</h4>
-        <div id="geoChart" style="width: 48%; height: 400px;"></div>
-    </div>
-    <div class="col-md-12 chart-container">
-        <div id="populationMap" style="width: 48%; height: 400px;"></div>
-    </div>
-    <script src="https://d3js.org/d3.v5.min.js"></script> <!-- Include D3.js library if not already included -->
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!-- Include Plotly library if not already included -->
-    <script>
-        function animation() {
-        }
-        animation();
-    </script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="/static/charts.js"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!-- Include Plotly library if not already included -->
-    </body>
-    </html>
+  </div>
+  <div class="col-md-12">
+    <h3>Population density by country</h3>
+    <h5>Thousands of people per square kilometer</h5>
+    <div id="geoChart" style="width: 100%; height: 400px;"></div>
+  </div>
+  <div class="col-md-12 chart-container">
+    <div id="populationMap" style="width: 100%; height: 400px;"></div>
+  </div>
+  <script src="https://d3js.org/d3.v5.min.js"></script> <!-- Include D3.js library if not already included -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!-- Include Plotly library if not already included -->
+  <script>
+    function animation() {
+    }
+    animation();
+  </script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="/static/charts.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> <!-- Include Plotly library if not already included -->
+</div>
+</body>
+</html>
+
+

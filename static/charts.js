@@ -54,6 +54,9 @@ d3.json("/Population").then(function (data) {
         scope: "world",
         showland: true,
       },
+  
+      width: 1200, // Set the width of the map
+      height: 600, // Set the height of the map
       updatemenus: [
         {
           x: 0.1,
