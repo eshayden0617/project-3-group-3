@@ -235,9 +235,27 @@ function barPlot(years, populationData, selectedCountry) {
     marker: {
       color: barColors, 
     },
+    name: 'Bar graph',
   };
 
-  let dataBar = [trace1];
+  let trace2 = {
+    type: "scatter", // Specify the type as "scatter" for a line plot
+    mode: "lines+markers", 
+    x: years,
+    y: populationData,
+    line: {
+      color: 'red', 
+      width: 2, 
+    },
+    marker: {
+      color: 'black', 
+      size: 6, 
+    },
+    name: 'Line graph', 
+  };
+
+  let dataBar = [trace1, trace2];
+
   let layoutBar = {
     title: `Population of ${selectedCountry} Over the Years`,
     xaxis: { title: "Year" },
